@@ -21,10 +21,10 @@ process RBMERGE2FASTA {
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-	LENGTH1=\$(cut -f3 ${rbdiv} | awk '(NR==1||length<shortest){shortest=length} END {print shortest}')
-	LENGTH=\$((\$LENGTH1 * 11 / 10))
+    LENGTH1=\$(cut -f3 ${rbdiv} | awk '(NR==1||length<shortest){shortest=length} END {print shortest}')
+    LENGTH=\$((\$LENGTH1 * 11 / 10))
 
-	cat ${rbmerge} <(echo "E") | \\
+    cat ${rbmerge} <(echo "E") | \\
     sed -e 's/[0-9]*:[0-9]*://g' | \\
     awk -v mlen=\$LENGTH '{
         if (NR == 1) e=\$2;
@@ -55,8 +55,8 @@ process RBMERGE2FASTA {
         }
     }' > ${prefix}_rainbow.fasta
     
-	seqtk seq -r ${prefix}_rainbow.fasta > ${prefix}_rainbow.RC.fasta
-	mv ${prefix}_rainbow.RC.fasta ${prefix}_rainbow.fasta
+    seqtk seq -r ${prefix}_rainbow.fasta > ${prefix}_rainbow.RC.fasta
+    mv ${prefix}_rainbow.RC.fasta ${prefix}_rainbow.fasta
 
 cat <<-END_VERSIONS > versions.yml
 "${task.process}":

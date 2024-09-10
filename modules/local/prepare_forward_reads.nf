@@ -50,21 +50,21 @@ process PREPARE_FORWARD_READS {
         gunzip -c ${forward_reads} | \\
         awk 'BEGIN{P=1}{if(P==1||P==2){gsub(/^[@]/,">");print}; if(P==4)P=0; P++}' | \\
         awk '!/>/' > ${prefix}.forward
-		
+
         gunzip -c ${reverse_reads} | \\
         awk 'BEGIN{P=1}{if(P==1||P==2){gsub(/^[@]/,">");print}; if(P==4)P=0; P++}' | \\
         awk '!/>/' > ${prefix}.reverse
         
         paste ${prefix}.forward ${prefix}.reverse | sort -k1 -S 200M > ${prefix}.fr
-		cut -f1 ${prefix}.fr | uniq -c > ${prefix}.f.uniq && cut -f2 ${prefix}.fr > ${prefix}.r
-		awk '{for(i=0;i<\$1;i++)print}' ${prefix}.f.uniq > ${prefix}.f.uniq.e
-		
+        cut -f1 ${prefix}.fr | uniq -c > ${prefix}.f.uniq && cut -f2 ${prefix}.fr > ${prefix}.r
+        awk '{for(i=0;i<\$1;i++)print}' ${prefix}.f.uniq > ${prefix}.f.uniq.e
+
         paste -d '-' ${prefix}.f.uniq.e ${prefix}.r | \\
         awk '!/NNN/'| \\
         sed -e 's/-/NNNNNNNNNN/' | \\
         sed -e 's/^[ \\t]*//' | \\
         sed -e 's/\\s/\\t/g' > ${prefix}.uniq.seqs
-		
+
         rm ${prefix}.f.uniq.e ${prefix}.f.uniq ${prefix}.r ${prefix}.fr
         
 cat <<-END_VERSIONS > versions.yml

@@ -44,13 +44,13 @@ process CDHIT_TO_RBDIV {
         awk '{if (\$1 ~ /Cl/) clus = clus + 1; else  print \$3 "\\t" clus}' ${clstr} | \\
         sed -e 's/[>dDocent_Contig_,...]//g' | \\
         sort -g -k1 > ${prefix}.sort.contig.cluster.ids
-		
+
         paste ${prefix}.sort.contig.cluster.ids <(awk '!/>/' ${totaluniqseq}) > ${prefix}.contig.cluster.Funiq
-		
-        sed -e 's/NNNNNNNNNN/   /g' ${totaluniqseq} | \\
+
+        sed -e 's/NNNNNNNNNN/	/g' ${totaluniqseq} | \\
         sort -k1 -S 2G | \\
         awk '{print \$0 "\\t" NR}'  > ${prefix}.totaluniqseq.CN
-		
+
         join -t \$'\\t' -1 3 -2 1 ${prefix}.contig.cluster.Funiq ${prefix}.totaluniqseq.CN -o 2.3,1.2,2.1,2.2 > ${prefix}.contig.cluster.totaluniqseq
         
         # cd-hit TO rainbow cluster format
