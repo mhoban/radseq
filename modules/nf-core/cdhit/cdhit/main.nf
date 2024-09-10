@@ -25,7 +25,7 @@ process CDHIT {
     def args = task.ext.args ?: ''
     if (type == 'PE') {
         """
-        sed -e 's/NNNNNNNNNN/	/g' ${fasta} | cut -f1 > uniq.F.fasta
+        sed -e \$'s/NNNNNNNNNN/\t/g' ${fasta} | cut -f1 > uniq.F.fasta
                 
         cd-hit-est \\
             -i uniq.F.fasta \\
@@ -46,7 +46,7 @@ process CDHIT {
         // cluster ids might match more than 1 reads
         // Random Shearing
         """
-        sed -e 's/NNNNNNNNNN/	/g' ${totaluniqseq} | cut -f1 | sort | \\
+        sed -e \$'s/NNNNNNNNNN/\t/g' ${totaluniqseq} | cut -f1 | sort | \\
         uniq | \\
         awk '{c= c + 1; print ">dDocent_Contig_" c "\\n" \$1}' > uniq.F.fasta
 

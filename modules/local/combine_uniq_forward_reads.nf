@@ -38,7 +38,7 @@ process COMBINE_UNIQUE_READS {
 
         awk -v x=${withinIndv_MinDepth} '\$1 >= x' *.uniq.seqs | \\
         cut -f2 | \\
-        sed -e 's/NNNNNNNNNN/	/g' | \\
+        sed -e \$'s/NNNNNNNNNN/\t/g' | \\
         cut -f1 | \\
         uniq | \\
         sort -S 2G | \\

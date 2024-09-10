@@ -32,7 +32,7 @@ process CDHIT_TO_RBDIV {
 
         # cd-hit TO rainbow cluster format
         sort -k2,2 -g ${prefix}.contig.cluster.totaluniqseq | \\
-        sed -e 's/NNNNNNNNNN/	/g' > ${prefix}.rclstr
+        sed -e \$'s/NNNNNNNNNN/\t/g' > ${prefix}.rclstr
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
             BusyBox: \$(busybox | sed -n -E 's/.*v([[:digit:].]+)\\s\\(.*/\\1/p')
@@ -47,7 +47,7 @@ process CDHIT_TO_RBDIV {
 
         paste ${prefix}.sort.contig.cluster.ids <(awk '!/>/' ${totaluniqseq}) > ${prefix}.contig.cluster.Funiq
 
-        sed -e 's/NNNNNNNNNN/	/g' ${totaluniqseq} | \\
+        sed -e \$'s/NNNNNNNNNN/\t/g' ${totaluniqseq} | \\
         sort -k1 -S 2G | \\
         awk '{print \$0 "\\t" NR}'  > ${prefix}.totaluniqseq.CN
 
@@ -55,7 +55,7 @@ process CDHIT_TO_RBDIV {
         
         # cd-hit TO rainbow cluster format
         sort -k2,2 -g ${prefix}.contig.cluster.totaluniqseq -S 2G | \\
-        sed -e 's/NNNNNNNNNN/	/g' > ${prefix}..rclstr
+        sed -e \$'s/NNNNNNNNNN/\t/g' > ${prefix}..rclstr
         
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
